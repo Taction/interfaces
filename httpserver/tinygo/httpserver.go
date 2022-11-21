@@ -441,6 +441,20 @@ func NewActorHttpServerSender(actor_id string) *HttpServerSender {
 	return &HttpServerSender{transport: transport}
 }
 
+// NewProvider constructs a client for sending to a HttpServer provider
+// implementing the 'wasmcloud:httpserver' capability contract, with the "default" link
+func NewProviderHttpServer() *HttpServerSender {
+	transport := actor.ToProvider("wasmcloud:httpserver", "default")
+	return &HttpServerSender{transport: transport}
+}
+
+// NewProviderHttpServerLink constructs a client for sending to a HttpServer provider
+// implementing the 'wasmcloud:httpserver' capability contract, with the specified link name
+func NewProviderHttpServerLink(linkName string) *HttpServerSender {
+	transport := actor.ToProvider("wasmcloud:httpserver", linkName)
+	return &HttpServerSender{transport: transport}
+}
+
 func (s *HttpServerSender) HandleRequest(ctx *actor.Context, arg HttpRequest) (*HttpResponse, error) {
 
 	var sizer msgpack.Sizer
@@ -461,4 +475,4 @@ func (s *HttpServerSender) HandleRequest(ctx *actor.Context, arg HttpRequest) (*
 	return &resp, nil
 }
 
-// This file is generated automatically using wasmcloud/weld-codegen 0.4.5
+// This file is generated automatically using wasmcloud/weld-codegen 0.5.0
